@@ -43,7 +43,7 @@ const InnerWrapper = styled.div`
 const Loading: React.FC = (): React.ReactElement<void> => {
   return (
     <FlexDiv>
-      {Array.from(new Array(3)).map(index => (
+      {Array.from(new Array(3)).map((e, index) => (
       <StyledCard key={index}>
         <Skeleton variant="rect" height={300} />
         <InnerWrapper>

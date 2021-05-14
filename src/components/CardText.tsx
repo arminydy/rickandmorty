@@ -25,9 +25,7 @@ const CardText: React.FC<CardTextProps> = (props: CardTextProps): React.ReactEle
       <Typography>
       <Bold data-testid="label-test">{label}:</Bold>
       </Typography>
-      <Typography variant="body2">
-      {isLoading ? <StyledLinearProgress /> : value}
-      </Typography>
+      {isLoading ? <StyledLinearProgress /> : <Typography variant="body2">{value}</Typography>}
     </Container>
   );
 }

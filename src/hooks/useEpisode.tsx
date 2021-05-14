@@ -1,19 +1,17 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { EpisodeProps } from '../models';
+import { useState, useEffect, useContext } from 'react';
 
-export const useEpisode = (urls: string[]): EpisodeProps | undefined => {
-  const [episods, setEpisods] = useState<EpisodeProps>();
+import { EpisodeProps } from '../models';
+import { ApiContext } from '../contexts';
+
+export const useEpisode = (urls: string[]): EpisodeProps[] | undefined => {
+  const [episods, setEpisods] = useState<EpisodeProps[]>([]);
+  const service = useContext(ApiContext);
   useEffect(() => {
-    Promise.all(
-      urls?.map((url: string) => axios.get<EpisodeProps>(url).then(
-        (res) => {
-          setEpisods(res.data)
-        })
-        .catch(e => console.error(e))
-      )
-    );
-  }, [urls]);
+    service?.getEpisodes(urls)
+    .then((res) => {
+      setEpisods(res);
+    })
+  }, [urls, service]);
 
   return episods;
 }

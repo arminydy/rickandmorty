@@ -1,17 +1,17 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useContext, useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
 import { Typography, IconButton } from '@material-ui/core';
 import { ArrowBackIos } from '@material-ui/icons';
 import { Pagination } from '@material-ui/lab';
 import { useHistory, useLocation } from 'react-router-dom';
-import axios from 'axios';
 import { parse } from 'qs';
+import { ApiContext } from '../contexts';
 
 import CharacterCard from '../components/CharacterCard';
 import Loading from '../components/Loading';
 import NotFound from './NotFound';
 
-import { CharacterType, PaginationType } from '../models';
+import { CharacterProps, PaginationProps } from '../models';
 
 const Container = styled.div`
   width: 100%;
@@ -27,7 +27,6 @@ const CardsWrapper = styled.div`
   flex-wrap: wrap;
   flex: 1;
   justify-content: center;
-  align-item: center;
 `;
 const StyledPagination = styled(Pagination)`
   display: flex;
@@ -46,20 +45,21 @@ const HeaderWrapper = styled.div`
 const Character: React.FC = (): React.ReactElement<void> => {
   const location = useLocation();
   const history = useHistory();
+  const service = useContext(ApiContext);
   const { name = '', page } = parse(location.search, { ignoreQueryPrefix: true });
-  const [characters, setCharacters] = useState<CharacterType[]>([]);
+  const [characters, setCharacters] = useState<CharacterProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [pagination, setPagination] = useState<PaginationType>({
+  const [pagination, setPagination] = useState<PaginationProps>({
     currentPage: Number(page) || 1,
     total: 1,
   });
   useEffect(() => {
     window.scrollTo(0, 0);
-    axios.get(`${process.env.REACT_APP_API_ENDPOINT}/character/?page=${pagination.currentPage}&name=${name}`)
+    service?.searchCharacter(String(name), pagination.currentPage)
     .then(response => {
-      setCharacters(response?.data?.results);
-      const { next, pages } = response?.data?.info;
-      const  UrlObject  = parse(next,{ ignoreQueryPrefix: true });
+      setCharacters(response?.results);
+      const { next, pages } = response?.info;
+      const  UrlObject  = parse(String(next),{ ignoreQueryPrefix: true });
       const currentPage = UrlObject[Object.keys(UrlObject)[0]];
       setPagination({
         currentPage: currentPage ? Number(currentPage) - 1 : pages,
@@ -67,7 +67,7 @@ const Character: React.FC = (): React.ReactElement<void> => {
       });
     }).catch(e => console.error(e))
     .finally(() => setIsLoading(false));
-  }, [pagination.currentPage, name])
+  }, [pagination.currentPage, name, service])
 
   const handleChangePage = (e: React.ChangeEvent<unknown>, page: number) => {
     history.push(`/character?name=${name}&page=${page}`)
@@ -95,7 +95,7 @@ const Character: React.FC = (): React.ReactElement<void> => {
       {isLoading ? <Loading /> :
         <Fragment>
           <CardsWrapper>
-            {characters?.length > 0 && characters.map((character: CharacterType) => (
+            {characters?.length > 0 && characters.map((character: CharacterProps) => (
               <CharacterCard
                 key={character?.id}
                 character={character}

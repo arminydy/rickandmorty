@@ -1,13 +1,12 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useContext, useMemo, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import {
   Typography,
   Card,
   CardContent,
   CardMedia,
 } from '@material-ui/core';
-
+import { ApiContext } from '../contexts';
 import { EpisodeProps, LocationProps } from '../models';
 import CardText from '../components/CardText';
 import { useEpisode } from '../hooks/useEpisode';
@@ -35,10 +34,11 @@ const StyledCard = styled(Card)`
 
   const CharacterCard: React.FC<any> = (props): React.ReactElement<void> => {
   const { character } = props;
+  const service = useContext(ApiContext);
   const [locationInfo, setLocationInfo] = useState<LocationProps>();
   const [isLoadingEpisodeData, setIsLoadingEpisodeData] = useState<boolean>(true);
   const [isLoadingLocationData, setIsLoadingLocationData] = useState<boolean>(true);
-  const getEpisodes: EpisodeProps | undefined = useEpisode(character?.episode);
+  const getEpisodes: EpisodeProps[] | undefined = useEpisode(character?.episode);
 
   const useMemoEpisode = useMemo(() => {
     setIsLoadingEpisodeData(false);
@@ -46,13 +46,19 @@ const StyledCard = styled(Card)`
   }, [getEpisodes])
 
   useEffect(() => {
-    axios.get<LocationProps>(character?.location?.url)
+    service?.getLocation(character?.location?.url)
       .then((res) => {
-        setLocationInfo(res.data)
+        setLocationInfo(res)
       })
       .catch(e => console.error(e))
       .finally(() => setIsLoadingLocationData(false));
-  }, [character?.location?.url])
+  }, [character?.location?.url, service]);
+
+  const getEpisodeName = () => {
+    return useMemoEpisode?.map((episode: EpisodeProps) => {
+      return `${episode?.name}; `;
+    })
+  }
 
   return (
     <StyledCard>
@@ -68,9 +74,11 @@ const StyledCard = styled(Card)`
         <CardText label="Gender" value={character?.gender} />
         <CardText label="Origin" value={character?.origin?.name} />
         <CardText label="Status" value={character?.status} />
-        <CardText label="Chapters" value={useMemoEpisode?.name || 'Unknown'} isLoading={isLoadingEpisodeData}/>
-        <CardText label="Episode" value={useMemoEpisode?.episode} isLoading={isLoadingEpisodeData}/>
-        <CardText label="Air date" value={useMemoEpisode?.air_date} isLoading={isLoadingEpisodeData}/>
+        <CardText
+          label="Chapters"
+          value={getEpisodeName() || 'Unknown'}
+          isLoading={isLoadingEpisodeData}
+        />
         <CardText label="Location" value={character?.location?.name} />
         <CardText label="Dimension" value={locationInfo?.dimension || 'Unknown'} isLoading={isLoadingLocationData} />
         <CardText label="Residents" value={String(locationInfo?.residents?.length)} isLoading={isLoadingLocationData}/>

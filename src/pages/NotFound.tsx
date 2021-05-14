@@ -24,7 +24,7 @@ const StyledTypography = styled(Typography)`
 `;
 const ButtonWrapper = styled.div`
   display: flex;
-  align-item: center;
+  align-items: center;
   margin-top: 4rem;
   .leftButton {
     margin-right: 1rem;
