@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { EpisodeProps } from '../models';
 
 export const useEpisode = (urls: string[]): EpisodeProps | undefined => {
-  const [episod, setEpisod] = React.useState<EpisodeProps>();
-  React.useEffect(() => {
+  const [episods, setEpisods] = useState<EpisodeProps>();
+  useEffect(() => {
     Promise.all(
       urls.map((url: string) => axios.get<EpisodeProps>(url).then(
         (res) => {
-          console.log('armin', res.data)
-          setEpisod(res.data)
+          setEpisods(res.data)
         })
+        .catch(e => console.error(e))
       )
-    )
+    );
   }, [urls]);
 
-  return episod;
+  return episods;
 }

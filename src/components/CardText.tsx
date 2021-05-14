@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography } from '@material-ui/core';
+import { Typography, LinearProgress } from '@material-ui/core';
 
 import { CardTextProps } from '../models';
 
@@ -14,20 +14,20 @@ const Bold = styled.span`
   font-weight: 500;
   margin-right: 8px;
 `;
-const StyledTypography = styled(Typography)`
-
+const StyledLinearProgress = styled(LinearProgress)`
+  width: 180px;
 `;
 
 const CardText: React.FC<CardTextProps> = (props: CardTextProps): React.ReactElement<void> => {
-  const { value, label } = props;
+  const { value, label, isLoading } = props;
   return (
     <Container>
-      <StyledTypography>
+      <Typography>
       <Bold>{label}:</Bold>
-      </StyledTypography>
-      <StyledTypography>
-        {value}
-      </StyledTypography>
+      </Typography>
+      <Typography variant="body2">
+      {isLoading ? <StyledLinearProgress /> : value}
+      </Typography>
     </Container>
   );
 }

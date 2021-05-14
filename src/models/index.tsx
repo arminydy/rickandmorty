@@ -23,6 +23,7 @@ export interface PaginationType {
 export interface CardTextProps {
   label: string;
   value?: string;
+  isLoading?: boolean;
 }
 export interface LocationProps {
   id: number;

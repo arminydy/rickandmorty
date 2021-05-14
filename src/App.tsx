@@ -14,14 +14,13 @@ const Container = styled.div`
   margin: 1rem;
 `;
 
-function App() {
+const App: React.FC = (): React.ReactElement<void> => {
   return (
     <Container>
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/character" component={Character} />
-          {/* <Route path="/character/:id" component={DetailsPage} /> */}
         </Switch>
       </BrowserRouter>
     </Container>

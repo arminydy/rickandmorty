@@ -20,7 +20,7 @@ const StyledTextField = styled(TextField)`
 
 const ENTER_KEY = 13;
 
-const Home: React.FC = (): React.ReactElement<void> => {
+const SearchBox: React.FC = (): React.ReactElement<void> => {
   const [keyword, setKeyword] = useState<string>('');
   const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
   const history  = useHistory();
@@ -74,4 +74,4 @@ const Home: React.FC = (): React.ReactElement<void> => {
   );
 }
 
-export default Home;
+export default SearchBox;
