@@ -6,7 +6,7 @@ export const useEpisode = (urls: string[]): EpisodeProps | undefined => {
   const [episods, setEpisods] = useState<EpisodeProps>();
   useEffect(() => {
     Promise.all(
-      urls.map((url: string) => axios.get<EpisodeProps>(url).then(
+      urls?.map((url: string) => axios.get<EpisodeProps>(url).then(
         (res) => {
           setEpisods(res.data)
         })

@@ -29,7 +29,7 @@ const Home: React.FC = (): React.ReactElement<void> => {
   return (
     <Container>
       <StyledTypography variant="h4">
-        Wubba Lubba Dub-Dub
+        Wubba Lubba Dub-Dub!
       </StyledTypography>
       <Image src={BannerPhoto} alt="banner" />
       <SearchBox />

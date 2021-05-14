@@ -1,15 +1,15 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import {
   Typography,
   Card,
   CardContent,
   CardMedia,
 } from '@material-ui/core';
+
 import { EpisodeProps, LocationProps } from '../models';
 import CardText from '../components/CardText';
-import axios from 'axios';
-
 import { useEpisode } from '../hooks/useEpisode';
 
 const StyledCardMedia = styled(CardMedia)`
@@ -33,9 +33,6 @@ const StyledCard = styled(Card)`
   }
 `;
 
-
-// const CharacterCard: React.FC = (props?: any): React.ReactElement<void> => {
-// const CharacterCard: FC<any> = (props: CharacterType): React.ReactElement<void> => {
   const CharacterCard: React.FC<any> = (props): React.ReactElement<void> => {
   const { character } = props;
   const [locationInfo, setLocationInfo] = useState<LocationProps>();
@@ -64,7 +61,7 @@ const StyledCard = styled(Card)`
         title={character?.name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography gutterBottom variant="h5" component="h2" data-testid="test-name">
           {character?.name}
         </Typography>
         <CardText label="Species" value={character?.species} />

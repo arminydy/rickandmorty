@@ -23,7 +23,7 @@ const CardText: React.FC<CardTextProps> = (props: CardTextProps): React.ReactEle
   return (
     <Container>
       <Typography>
-      <Bold>{label}:</Bold>
+      <Bold data-testid="label-test">{label}:</Bold>
       </Typography>
       <Typography variant="body2">
       {isLoading ? <StyledLinearProgress /> : value}

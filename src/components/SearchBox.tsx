@@ -41,6 +41,7 @@ const SearchBox: React.FC = (): React.ReactElement<void> => {
   return (
     <SearchBoxWrapper>
       <StyledTextField
+        data-testid="input-test"
         fullWidth
         label="Search by character"
         variant="outlined"
