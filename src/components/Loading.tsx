@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 
 const StyledSkeleton = styled(Skeleton)`
