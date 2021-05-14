@@ -54,7 +54,7 @@ export interface EpisodeProps {
   url: string;
   created: string;
 }
-export interface SearchSeverInterface {
+export interface SearchServerInterface {
   searchCharacter: (name?: string, page?: number) => Promise<CharacterSearchResultProps>;
   getEpisodes: (urls: string[]) => Promise<EpisodeProps[]>;
   getLocation: (url: string) => Promise<LocationProps>;

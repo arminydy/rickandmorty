@@ -2,13 +2,13 @@ import {
   CharacterSearchResultProps,
   LocationProps,
   EpisodeProps,
-  SearchSeverInterface
+  SearchServerInterface
 } from "./models/index";
 
 import axios from "axios";
 
 
-export class APIService implements SearchSeverInterface {
+export class APIService implements SearchServerInterface {
   constructor(protected url: string) {}
 
   async searchCharacter(name?: string, page?: number):Promise<CharacterSearchResultProps> {
